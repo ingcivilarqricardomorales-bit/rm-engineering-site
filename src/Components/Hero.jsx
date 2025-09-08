@@ -17,17 +17,10 @@ export default function Hero() {
         <source src="/hero-bg.mp4"  type="video/mp4"  />
       </video>
 
-      {/* Capa para contraste */}
+      {/* Capa para contraste de texto */}
       <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
 
-      {/* LOGO como watermark (no estorba) */}
-      <img
-        src="/logo.png"
-        alt="RM Engineering & Architectural Design"
-        className="hidden md:block absolute top-6 right-6 w-36 opacity-95 drop-shadow-xl pointer-events-none z-20"
-      />
-
-      {/* CONTENIDO */}
+      {/* Contenido */}
       <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl text-white">
           <p className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
@@ -52,10 +45,15 @@ export default function Hero() {
               href="#projects"
               className="inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold ring-1 ring-black/10 hover:bg-black/5"
             >
-              Analisís y Diseños
+              Ver casos de estudio
             </a>
           </div>
-          </div>
+        </div>
+        <div className="relative">
+          <div className="relative rounded-3xl border border-black/10 bg-white/80 p-6 shadow-xl">
+            <img src="/logo.png" alt="Logo RM Engineering & Architectural Design" className="w-full h-auto object-contain" />
+            <p className="mt-4 text-center text-sm text-gray-600">
+              Ingeniería estructural, eléctrica e hidrosanitaria con enfoque integral.
             </p>
           </div>
         </div>
