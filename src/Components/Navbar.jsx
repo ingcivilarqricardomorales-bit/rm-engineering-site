@@ -15,7 +15,7 @@ export default function Navbar() {
         {/* Desktop menu */}
         <ul className="hidden md:flex items-center gap-8 font-medium text-gray-700">
           <li><a href="#services" className="hover:text-emerald-600">Servicios</a></li>
-          <li><a href="#projects" className="hover:text-emerald-600">Proyectos</a></li>
+          <li><a href="#projects" className="hover:text-emerald-600">Analisís y Diseños</a></li>
           <li><a href="#contact" className="hover:text-emerald-600">Contacto</a></li>
         </ul>
 
