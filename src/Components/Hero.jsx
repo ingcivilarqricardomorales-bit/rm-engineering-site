@@ -2,19 +2,29 @@ import React from "react";
 
 export default function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden">
-      {/* Fondo decorativo */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(1200px 600px at -10% -10%, rgba(31,106,86,0.15), transparent 60%), radial-gradient(1000px 500px at 110% 110%, rgba(217,163,37,0.18), transparent 60%)",
-        }}
-      />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 grid lg:grid-cols-2 gap-10 items-center">
-        <div>
-          <p className="inline-block rounded-full bg-white shadow px-3 py-1 text-xs font-semibold text-gray-700 ring-1 ring-black/10">
+   <section id="home" className="relative h-[70vh] min-h-[480px] w-full overflow-hidden">
+      {/* VIDEO DE FONDO */}
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        src="/RecorridoVirtual.webm"
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/RecorridoVirtual.jpg"
+      >
+        {/* Fallback mp4 para navegadores que no soportan webm */}
+        <source src="/RecorridoVirtual.webm" type="video/webm" />
+        <source src="/RecorridoVirtual.mp4" type="video/mp4" />
+      </video>
+
+      {/* CAPA OSCURA PARA LEGIBILIDAD */}
+      <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
+
+      {/* CONTENIDO */}
+      <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl text-white">
+          <p className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
             Ingeniería + Arquitectura
           </p>
           <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold leading-tight text-gray-900">
