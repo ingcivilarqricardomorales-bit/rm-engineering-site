@@ -55,6 +55,10 @@ export default function Hero() {
               Analisís y Diseños
             </a>
           </div>
+          </div>
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
