@@ -68,6 +68,18 @@ export default function App() {
       metric: "Permisos De Construcción y Ocupación",
       img: "/t.png",
     },
+    {
+      title: "Paisajismo",
+      tag: "Forma y Espacio",
+      metric: "Lenguaje del sitio",
+      img: "/ls.png",
+    },
+    {
+      title: "Renderización",
+      tag: "Tiempo Real",
+      metric: "Lumion-Vray-D5 Render-Enscape-Twinmotion",
+      img: "/rd.png",
+    },
   ];
 
   return (
