@@ -6,16 +6,16 @@ export default function Hero() {
       {/* VIDEO DE FONDO */}
       <video
         className="absolute inset-0 h-full w-full object-cover"
-        src="/RecorridoVirtual.webm"
+        src="/RenderVirtual.webm"
         autoPlay
         muted
         loop
         playsInline
-        poster="/RecorridoVirtual.jpg"
+        poster="/RenderVirtual.jpg"
       >
         {/* Fallback mp4 para navegadores que no soportan webm */}
-        <source src="/RecorridoVirtual.webm" type="video/webm" />
-        <source src="/RecorridoVirtual.mp4" type="video/mp4" />
+        <source src="/RenderVirtual.webm" type="video/webm" />
+        <source src="/RenderVirtual.mp4" type="video/mp4" />
       </video>
 
       {/* CAPA OSCURA PARA LEGIBILIDAD */}
