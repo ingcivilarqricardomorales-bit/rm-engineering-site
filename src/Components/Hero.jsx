@@ -2,26 +2,25 @@ import React from "react";
 
 export default function Hero() {
   return (
-   <section id="home" className="relative h-[70vh] min-h-[480px] w-full overflow-hidden">
+   <section id="home" className="relative h-[70vh] min-h-[520px] w-full overflow-hidden">
       {/* VIDEO DE FONDO */}
       <video
         className="absolute inset-0 h-full w-full object-cover"
-        src="/RenderVirtual.webm"
         autoPlay
         muted
         loop
         playsInline
-        poster="/RenderVirtual.jpg"
+        preload="metadata"
+        poster="/hero-fallback.jpg"
       >
-        {/* Fallback mp4 para navegadores que no soportan webm */}
-        <source src="/RenderVirtual.webm" type="video/webm" />
-        <source src="/RenderVirtual.mp4" type="video/mp4" />
+        <source src="/hero-bg.webm" type="video/webm" />
+        <source src="/hero-bg.mp4"  type="video/mp4"  />
       </video>
 
-      {/* CAPA OSCURA PARA LEGIBILIDAD */}
+      {/* Capa para contraste de texto */}
       <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
 
-      {/* CONTENIDO */}
+      {/* Contenido */}
       <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl text-white">
           <p className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
