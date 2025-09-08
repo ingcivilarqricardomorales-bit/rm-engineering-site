@@ -11,10 +11,10 @@ export default function Hero() {
         loop
         playsInline
         preload="metadata"
-        poster="/RenderVirtual.jpg"
+        poster="/hero-fallback.jpg"
       >
-        <source src="/RenderVirtual.webm" type="video/webm" />
-        <source src="/RenderVirtual.mp4"  type="video/mp4"  />
+        <source src="/hero-bg.webm" type="video/webm" />
+        <source src="/hero-bg.mp4"  type="video/mp4"  />
       </video>
 
       {/* Capa para contraste de texto */}
