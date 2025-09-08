@@ -48,10 +48,6 @@ export default function Hero() {
               Ver casos de estudio
             </a>
           </div>
-        </div>
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );
