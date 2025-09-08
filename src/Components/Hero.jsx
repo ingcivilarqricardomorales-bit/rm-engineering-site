@@ -52,7 +52,7 @@ export default function Hero() {
               href="#projects"
               className="inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold ring-1 ring-black/10 hover:bg-black/5"
             >
-              Ver casos de estudio
+              Analisís y Diseños
             </a>
           </div>
         </div>
