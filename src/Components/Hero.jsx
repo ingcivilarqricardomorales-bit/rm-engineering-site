@@ -48,7 +48,8 @@ export default function Hero() {
               Ver casos de estudio
             </a>
           </div>
-          <div className="relative">
+        </div>
+        <div className="relative">
           <div className="relative rounded-3xl border border-black/10 bg-white/80 p-6 shadow-xl">
             <img src="/logo.png" alt="Logo RM Engineering & Architectural Design" className="w-full h-auto object-contain" />
             <p className="mt-4 text-center text-sm text-gray-600">
