@@ -34,7 +34,7 @@ export default function Hero() {
             <span className="text-amber-600">medibles</span>
           </h1>
           <p className="mt-5 text-lg text-white/90 max-w-xl">
-            Cumplimiento estricto de UPC/IPC, NFPA/NEC, ASCE 7 y mejores
+            Cumplimiento estricto de códigos UPC/IPC, NFPA/NEC, ASCE 7 y mejores
             prácticas PMI. Optimizamos costo, tiempo y calidad con enfoque en
             desempeño.
           </p>
