@@ -122,7 +122,7 @@ export default function App() {
       {/* Proyectos / Portafolio */}
       <section id="projects" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex items-end justify-between">
-          <h2 className="text-3xl font-bold">Análisis y Diseños</h2>
+          <h2 className="text-3xl font-bold">Análisis & Diseños</h2>
           <a href="#contact" className="text-sm underline underline-offset-4 hover:opacity-80">
             ¿Tienes un reto? Conversemos →
           </a>
