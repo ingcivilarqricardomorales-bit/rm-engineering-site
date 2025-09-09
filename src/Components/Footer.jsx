@@ -23,7 +23,7 @@ export default function Footer() {
           <h4 className="font-semibold mb-3">Contacto</h4>
           <ul className="space-y-2 text-sm">
             <li>Email: ing.civil.arq.ricardo.morales@gmail.com</li>
-            <li>Cel: +507 66074960</li>
+            <li>Celular: +507 66074960</li>
             <li>Panamá</li>
           </ul>
         </div>
