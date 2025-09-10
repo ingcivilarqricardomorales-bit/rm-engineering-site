@@ -1,40 +1,50 @@
 import sgMail from "@sendgrid/mail";
 
-const pick = (obj, keys=[]) => {
-  for (const k of keys) if (obj && obj[k]) return obj[k];
-  return undefined;
+const get = (obj, keys) => {
+  for (const k of keys) if (obj && obj[k]) return String(obj[k]);
+  return "";
 };
-const escapeHtml = (s) => String(s)
-  .replaceAll("&","&amp;").replaceAll("<","&lt;")
-  .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+const esc = (s) =>
+  String(s)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 export const handler = async (event) => {
   try {
-    const parsed  = JSON.parse(event.body || "{}");
-    const payload = parsed.payload || {};
-    const data    = payload.data || {};
-    const fields  = { ...data, ...payload, ...parsed };
+    const { SENDGRID_API_KEY, MAIL_TO, MAIL_FROM } = process.env;
+    if (!SENDGRID_API_KEY || !MAIL_TO || !MAIL_FROM) {
+      return { statusCode: 500, body: "Faltan variables de entorno" };
+    }
+    sgMail.setApiKey(SENDGRID_API_KEY);
 
-    const name    = pick(fields, ["name","Nombre","fullName"]) || "-";
-    const email   = pick(fields, ["email","Email","correo"])    || "-";
-    const subject = pick(fields, ["subject","Subject","asunto"])|| "Solicitud de cotización";
-    const message = pick(fields, ["message","Mensaje","msg"])   || "-";
+    const parsed = JSON.parse(event.body || "{}");
+    const payload = parsed?.payload || {};
+    const data = payload?.data || {}; // <-- campos del formulario
 
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    // Campos (tolerante a variantes)
+    const name = get(data, ["name", "nombre", "full_name"]) || "-";
+    const email = get(data, ["email", "correo", "replyto"]) || "-";
+    const subject = get(data, ["subject", "asunto"]) || "Nuevo mensaje";
+    const message = get(data, ["message", "mensaje", "body"]) || "-";
+
     await sgMail.send({
-      to: process.env.TO_EMAIL || "ing.civil.arq.ricardo.morales@gmail.com",
-      from: { email: process.env.FROM_EMAIL, name: "RM Engineering – Formulario" },
-      replyTo: email !== "-" ? { email, name } : undefined,
-      subject: `Nuevo contacto: ${subject}`,
+      to: MAIL_TO,
+      from: MAIL_FROM,
+      replyTo: email !== "-" ? email : undefined,
+      subject: `Contacto: ${subject}`,
       html: `
         <h2>Nuevo contacto desde <strong>RM Engineering</strong></h2>
-        <p><strong>Nombre:</strong> ${escapeHtml(name)}</p>
-        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-        <p><strong>Asunto:</strong> ${escapeHtml(subject)}</p>
+        <p><strong>Nombre:</strong> ${esc(name)}</p>
+        <p><strong>Email:</strong> ${esc(email)}</p>
+        <p><strong>Asunto:</strong> ${esc(subject)}</p>
         <p><strong>Mensaje:</strong></p>
-        <pre style="white-space:pre-wrap">${escapeHtml(message)}</pre>
+        <pre style="white-space:pre-wrap">${esc(message)}</pre>
       `,
     });
+
     return { statusCode: 200, body: "OK" };
   } catch (e) {
     console.error("Email error:", e);
