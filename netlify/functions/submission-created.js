@@ -1,41 +1,41 @@
 import sgMail from "@sendgrid/mail";
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-export async function handler(event) {
+export const handler = async (event) => {
   try {
-    const data = JSON.parse(event.body);
+    // Netlify Forms -> Form submission payload
+    const { payload } = JSON.parse(event.body);
+    const d = payload?.data || {};
 
-    const msg = {
-      to: "tu-correo@gmail.com", // 📩 Reemplaza con el correo donde quieres recibir los mensajes
-      from: "no-reply@rm-engineering-site.com", // puede ser un fake sender (SendGrid lo acepta sin dominio)
-      subject: `Nuevo mensaje de ${data.name}`,
-      text: `
-        Nombre: ${data.name}
-        Email: ${data.email}
-        Asunto: ${data.subject}
-        Mensaje: ${data.message}
-      `,
+    const name = d.name || "-";
+    const email = d.email || "-";
+    const subject = d.subject || "Solicitud de cotización";
+    const message = d.message || "-";
+
+    // Configura tu API Key de SendGrid en Netlify → Environment Variables
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+    await sgMail.send({
+      to: "ing.civil.arq.ricardo.morales@gmail.com", // destino fijo a tu Gmail
+      from: process.env.FROM_EMAIL,                 // remitente (Single Sender verificado en SendGrid)
+      replyTo: email !== "-" ? email : undefined,   // quien escribió el formulario
+      subject: `Nuevo contacto: ${subject}`,
+      text:
+        `Nombre: ${name}\n` +
+        `Email: ${email}\n\n` +
+        `Mensaje:\n${message}\n`,
       html: `
-        <h3>Nuevo mensaje desde tu formulario</h3>
-        <p><strong>Nombre:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Asunto:</strong> ${data.subject}</p>
-        <p><strong>Mensaje:</strong> ${data.message}</p>
+        <h2>Nuevo contacto desde RM Engineering</h2>
+        <p><strong>Nombre:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Asunto:</strong> ${subject}</p>
+        <p><strong>Mensaje:</strong></p>
+        <pre style="white-space:pre-wrap">${message}</pre>
       `,
-    };
+    });
 
-    await sgMail.send(msg);
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: "Correo enviado con éxito ✅" }),
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: "Error al enviar el correo ❌" }),
-    };
+    return { statusCode: 200, body: "OK" };
+  } catch (err) {
+    console.error("Email error:", err);
+    return { statusCode: 500, body: "Email error" };
   }
-}
+};
