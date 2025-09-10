@@ -1,4 +1,3 @@
-// netlify/functions/submission-created.js
 import sgMail from "@sendgrid/mail";
 
 // Utilidad para tomar el primer valor disponible entre varias claves
@@ -13,16 +12,15 @@ export const handler = async (event) => {
   try {
     const parsed = JSON.parse(event.body || "{}");
 
-    // Netlify (submission-created) suele mandar esto:
-    // { payload: { data: { name, email, subject, message }, ... } }
+    // Netlify envía algo tipo { payload: { data: {...}, ... } }
     const payload = parsed.payload || {};
     const data = payload.data || {};
 
-    // Construimos un "campo unificado" combinando todo lo posible
+    // Mezcla de todas las capas posibles por si cambian
     const fields = {
       ...data,
-      ...payload,     // por si viniera plano
-      ...parsed       // por si viniera sin 'payload'
+      ...payload,
+      ...parsed,
     };
 
     const name =
@@ -40,14 +38,14 @@ export const handler = async (event) => {
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    const FROM_EMAIL = process.env.FROM_EMAIL;               // Single Sender verificado
+    const FROM_EMAIL = process.env.FROM_EMAIL; // Single Sender VERIFICADO en SendGrid
     const TO_EMAIL =
       process.env.TO_EMAIL || "ing.civil.arq.ricardo.morales@gmail.com";
 
     await sgMail.send({
       to: TO_EMAIL,
       from: { email: FROM_EMAIL, name: "RM Engineering – Formulario" },
-      // para poder responder directo al cliente
+      // Para que al responder, le respondas al cliente
       replyTo: email !== "-" ? { email, name } : undefined,
       subject: `Nuevo contacto: ${subject}`,
       text:
@@ -77,7 +75,7 @@ export const handler = async (event) => {
             </tr>
           </table>
         </div>
-      `
+      `,
     });
 
     return { statusCode: 200, body: "OK" };
@@ -87,7 +85,6 @@ export const handler = async (event) => {
   }
 };
 
-// Pequeña ayuda para evitar HTML injection
 function escapeHtml(str) {
   return String(str)
     .replaceAll("&", "&amp;")
