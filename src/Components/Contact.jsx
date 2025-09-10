@@ -1,77 +1,104 @@
-import React, { useState } from "react";
+import React from "react";
 
 export default function Contact() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = { name, email, subject, message };
-
-    try {
-      const res = await fetch("/.netlify/functions/submission-created", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await res.json();
-      setStatus(result.message);
-    } catch (err) {
-      setStatus("Error al enviar el formulario ❌");
-    }
-  };
-
   return (
     <section id="contact" className="py-16 bg-gray-50">
       <div className="max-w-3xl mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-6">Contacto</h2>
-        <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 rounded-xl shadow-lg">
-          <input
-            type="text"
-            placeholder="Nombre"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="w-full border rounded-lg px-4 py-2"
-          />
-          <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full border rounded-lg px-4 py-2"
-          />
-          <input
-            type="text"
-            placeholder="Asunto"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            className="w-full border rounded-lg px-4 py-2"
-          />
-          <textarea
-            placeholder="Mensaje"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            required
-            className="w-full border rounded-lg px-4 py-2 h-32"
-          />
-          <button
-            type="submit"
-            className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md"
-          >
-            Enviar solicitud
-          </button>
-        </form>
+        <h2 className="text-3xl font-bold mb-2 text-gray-900">Contacto</h2>
+        <p className="text-gray-600 mb-8">
+          Cuéntanos sobre tu proyecto. Respondemos entre 24 y 72 horas hábiles.
+        </p>
 
-        {status && (
-          <p className="mt-4 text-center text-sm text-gray-600">{status}</p>
-        )}
+        {/* FORMULARIO Netlify: SIN preventDefault, SIN fetch */}
+        <form
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          action="/success.html"
+          className="space-y-5 bg-white p-6 rounded-2xl shadow-lg ring-1 ring-black/5"
+        >
+          {/* Requerido por Netlify Forms */}
+          <input type="hidden" name="form-name" value="contact" />
+
+          {/* Honeypot (anti-bots) */}
+          <p className="hidden">
+            <label>
+              Don’t fill this out: <input name="bot-field" />
+            </label>
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Nombre
+              </label>
+              <input
+                type="text"
+                name="name"
+                required
+                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                placeholder="Tu nombre"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                placeholder="tucorreo@ejemplo.com"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Asunto
+            </label>
+            <input
+              type="text"
+              name="subject"
+              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              placeholder="Ej. Cotización / Consultoría / Proyecto"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Mensaje
+            </label>
+            <textarea
+              name="message"
+              required
+              rows={6}
+              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              placeholder="Describe de forma breve tu proyecto, plazos y alcance…"
+            />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <button
+              type="submit"
+              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-semibold text-white shadow-sm hover:bg-amber-600"
+            >
+              Enviar solicitud
+            </button>
+
+            <a
+              href="https://wa.me/50700000000?text=Hola%20RM%20Engineering,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto."
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm text-gray-600 hover:text-gray-900"
+            >
+              WhatsApp
+            </a>
+          </div>
+        </form>
       </div>
     </section>
   );
