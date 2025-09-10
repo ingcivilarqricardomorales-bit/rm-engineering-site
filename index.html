@@ -20,8 +20,11 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 <!-- Netlify ghost form: permite a Netlify "aprender" los campos en build -->
-<form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+<form name="contact" data-netlify="true" netlify-honeypot="bot-field" accept-charset="UTF-8" hidden>
   <input type="hidden" name="form-name" value="contact" />
+  <!-- Honeypot -->
+  <input type="text" name="bot-field" />
+  <!-- Campos reales -->
   <input type="text"   name="name" />
   <input type="email"  name="email" />
   <input type="text"   name="subject" />
