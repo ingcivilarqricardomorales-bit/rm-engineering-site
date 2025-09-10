@@ -1,27 +1,41 @@
 import sgMail from "@sendgrid/mail";
 
-export const handler = async (event) => {
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+export async function handler(event) {
   try {
-    const payload = JSON.parse(event.body).payload;
-    const d = payload.data || {};
-    const name = d.name || "-";
-    const email = d.email || "-";
-    const subject = d.subject || "Solicitud de cotización";
-    const message = d.message || "-";
+    const data = JSON.parse(event.body);
 
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: "tu-correo@gmail.com", // 📩 Reemplaza con el correo donde quieres recibir los mensajes
+      from: "no-reply@rm-engineering-site.com", // puede ser un fake sender (SendGrid lo acepta sin dominio)
+      subject: `Nuevo mensaje de ${data.name}`,
+      text: `
+        Nombre: ${data.name}
+        Email: ${data.email}
+        Asunto: ${data.subject}
+        Mensaje: ${data.message}
+      `,
+      html: `
+        <h3>Nuevo mensaje desde tu formulario</h3>
+        <p><strong>Nombre:</strong> ${data.name}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Asunto:</strong> ${data.subject}</p>
+        <p><strong>Mensaje:</strong> ${data.message}</p>
+      `,
+    };
 
-    await sgMail.send({
-      to: process.env.TO_EMAIL,           // Gmail destino
-      from: process.env.FROM_EMAIL,       // remitente verificado
-      replyTo: email !== "-" ? email : undefined,
-      subject: `Nuevo contacto: ${subject}`,
-      text: `Nombre: ${name}\nEmail: ${email}\n\nMensaje:\n${message}`,
-    });
+    await sgMail.send(msg);
 
-    return { statusCode: 200, body: "OK" };
-  } catch (e) {
-    console.error(e);
-    return { statusCode: 500, body: "Email error" };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "Correo enviado con éxito ✅" }),
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: "Error al enviar el correo ❌" }),
+    };
   }
-};
+}
