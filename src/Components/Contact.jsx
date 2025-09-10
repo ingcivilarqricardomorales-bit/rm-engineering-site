@@ -5,9 +5,9 @@ export default function Contact() {
     e.preventDefault();
     const form = e.currentTarget;
 
-    // Serializamos como application/x-www-form-urlencoded
+    // Serializa como application/x-www-form-urlencoded
     const formData = new FormData(form);
-    formData.append("form-name", "contact"); // reforzamos el form-name
+    formData.append("form-name", "contact"); // refuerzo, por si acaso
     const body = new URLSearchParams(formData).toString();
 
     try {
@@ -16,12 +16,10 @@ export default function Contact() {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
       });
-
-      // Redirige a la página de éxito
-      window.location.assign("/success.html");
+      window.location.assign("/success.html"); // página de gracias
     } catch (err) {
-      alert("No se pudo enviar el formulario. Intenta de nuevo.");
       console.error(err);
+      alert("No se pudo enviar el formulario. Inténtalo de nuevo.");
     }
   }, []);
 
@@ -42,10 +40,9 @@ export default function Contact() {
           onSubmit={handleSubmit}
           className="space-y-5 bg-white p-6 rounded-2xl shadow-lg ring-1 ring-black/5"
         >
-          {/* Requerido por Netlify Forms */}
           <input type="hidden" name="form-name" value="contact" />
 
-          {/* Honeypot (anti-bots) */}
+          {/* Honeypot */}
           <p className="hidden">
             <label>
               Don’t fill this out: <input name="bot-field" />
@@ -54,9 +51,7 @@ export default function Contact() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Nombre
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Nombre</label>
               <input
                 type="text"
                 name="name"
@@ -67,9 +62,7 @@ export default function Contact() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
                 type="email"
                 name="email"
@@ -81,27 +74,24 @@ export default function Contact() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Asunto
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Asunto</label>
             <input
               type="text"
               name="subject"
               className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
               placeholder="Ej. Cotización / Consultoría / Proyecto"
+              defaultValue="Solicitud de cotización"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Mensaje
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Mensaje</label>
             <textarea
               name="message"
               required
               rows={6}
               className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-              placeholder="Describe de forma breve tu proyecto, plazos y alcance…"
+              placeholder="Describe brevemente tu proyecto, plazos y alcance…"
             />
           </div>
 
@@ -112,7 +102,6 @@ export default function Contact() {
             >
               Enviar solicitud
             </button>
-
             <a
               href="https://wa.me/50700000000?text=Hola%20RM%20Engineering,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto."
               target="_blank"
