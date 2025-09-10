@@ -11,13 +11,14 @@ export default function Contact() {
 
         {/* FORMULARIO Netlify: SIN preventDefault, SIN fetch */}
         <form
-          name="contact"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          action="/success.html"
-          className="space-y-5 bg-white p-6 rounded-2xl shadow-lg ring-1 ring-black/5"
-        >
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  action="/success.html"
+  acceptCharset="UTF-8"
+  className="space-y-5 bg-white p-6 rounded-2xl shadow-lg ring-1 ring-black/5"
+>
           {/* Requerido por Netlify Forms */}
           <input type="hidden" name="form-name" value="contact" />
 
