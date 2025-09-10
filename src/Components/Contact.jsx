@@ -1,109 +1,95 @@
-import React from "react";
+import sgMail from "@sendgrid/mail";
 
-export default function Contact() {
-  return (
-    <section id="contact" className="py-16 bg-gray-50">
-      <div className="max-w-3xl mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-2 text-gray-900">Contacto</h2>
-        <p className="text-gray-600 mb-8">
-          Cuéntanos sobre tu proyecto. Respondemos entre 24 y 72 horas hábiles.
-        </p>
+// Utilidad para tomar el primer valor disponible entre varias claves
+const pick = (obj, keys = []) => {
+  for (const k of keys) {
+    if (obj && Object.prototype.hasOwnProperty.call(obj, k) && obj[k]) return obj[k];
+  }
+  return undefined;
+};
 
-        {/* FORMULARIO Netlify: SIN preventDefault, SIN fetch */}
-       <form
-  name="contact"
-  method="POST"
-  data-netlify="true"
-  netlify-honeypot="bot-field"
-  action="/success.html"
-  acceptCharset="UTF-8"
-  className="space-y-5 bg-white p-6 rounded-2xl shadow-lg ring-1 ring-black/5"
->
-  <input type="hidden" name="form-name" value="contact" />
-  {/* ... tus inputs name/email/subject/message ... */}
-</form>
-          {/* Requerido por Netlify Forms */}
-          <input type="hidden" name="form-name" value="contact" />
+export const handler = async (event) => {
+  try {
+    const parsed = JSON.parse(event.body || "{}");
 
-          {/* Honeypot (anti-bots) */}
-          <p className="hidden">
-            <label>
-              Don’t fill this out: <input name="bot-field" />
-            </label>
-          </p>
+    // Netlify envía algo tipo { payload: { data: {...}, ... } }
+    const payload = parsed.payload || {};
+    const data = payload.data || {};
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Nombre
-              </label>
-              <input
-                type="text"
-                name="name"
-                required
-                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                placeholder="Tu nombre"
-              />
-            </div>
+    // Mezcla de todas las capas posibles por si cambian
+    const fields = {
+      ...data,
+      ...payload,
+      ...parsed,
+    };
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                required
-                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                placeholder="tucorreo@ejemplo.com"
-              />
-            </div>
-          </div>
+    const name =
+      pick(fields, ["name", "Nombre", "fullName", "fullname"]) || "-";
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Asunto
-            </label>
-            <input
-              type="text"
-              name="subject"
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-              placeholder="Ej. Cotización / Consultoría / Proyecto"
-            />
-          </div>
+    const email =
+      pick(fields, ["email", "Email", "correo", "mail"]) || "-";
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Mensaje
-            </label>
-            <textarea
-              name="message"
-              required
-              rows={6}
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-              placeholder="Describe de forma breve tu proyecto, plazos y alcance…"
-            />
-          </div>
+    const subject =
+      pick(fields, ["subject", "Subject", "asunto", "Asunto"]) ||
+      "Solicitud de cotización";
 
-          <div className="flex items-center justify-between">
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-semibold text-white shadow-sm hover:bg-amber-600"
-            >
-              Enviar solicitud
-            </button>
+    const message =
+      pick(fields, ["message", "Mensaje", "msg", "Message", "comments"]) || "-";
 
-            <a
-              href="https://wa.me/50700000000?text=Hola%20RM%20Engineering,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto."
-              target="_blank"
-              rel="noreferrer"
-              className="text-sm text-gray-600 hover:text-gray-900"
-            >
-              WhatsApp
-            </a>
-          </div>
-        </form>
-      </div>
-    </section>
-  );
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+    const FROM_EMAIL = process.env.FROM_EMAIL; // Single Sender VERIFICADO en SendGrid
+    const TO_EMAIL =
+      process.env.TO_EMAIL || "ing.civil.arq.ricardo.morales@gmail.com";
+
+    await sgMail.send({
+      to: TO_EMAIL,
+      from: { email: FROM_EMAIL, name: "RM Engineering – Formulario" },
+      // Para que al responder, le respondas al cliente
+      replyTo: email !== "-" ? { email, name } : undefined,
+      subject: `Nuevo contacto: ${subject}`,
+      text:
+        `Nombre: ${name}\n` +
+        `Email: ${email}\n` +
+        `Asunto: ${subject}\n\n` +
+        `Mensaje:\n${message}\n`,
+      html: `
+        <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;line-height:1.5;color:#0f172a">
+          <h2 style="margin:0 0 12px">Nuevo contacto desde <strong>RM Engineering</strong></h2>
+          <table style="border-collapse:collapse;width:100%;max-width:640px">
+            <tr>
+              <td style="padding:8px 0;width:120px;color:#475569"><strong>Nombre:</strong></td>
+              <td style="padding:8px 0">${escapeHtml(name)}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;color:#475569"><strong>Email:</strong></td>
+              <td style="padding:8px 0">${escapeHtml(email)}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;color:#475569"><strong>Asunto:</strong></td>
+              <td style="padding:8px 0">${escapeHtml(subject)}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;vertical-align:top;color:#475569"><strong>Mensaje:</strong></td>
+              <td style="padding:8px 0;white-space:pre-wrap">${escapeHtml(message)}</td>
+            </tr>
+          </table>
+        </div>
+      `,
+    });
+
+    return { statusCode: 200, body: "OK" };
+  } catch (err) {
+    console.error("Email error:", err);
+    return { statusCode: 500, body: "Email error" };
+  }
+};
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
