@@ -80,7 +80,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Análisis y Diseños */}
+      {/* Proyectos */}
       <section id="projects" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">Análisis y Diseño</h2>
           {projects.map((c) => (
