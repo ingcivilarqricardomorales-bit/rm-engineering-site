@@ -1,24 +1,30 @@
+// netlify/functions/submission-created.js
 import sgMail from "@sendgrid/mail";
 
 export const handler = async (event) => {
   try {
-    const { payload } = JSON.parse(event.body);
+    const parsed = JSON.parse(event.body || "{}");
+    console.log("Raw event body:", parsed);
 
-    // Netlify manda los datos dentro de payload.data
+    const { payload } = parsed;
     const d = payload?.data || {};
 
-    const name = d.name || "(no proporcionado)";
-    const email = d.email || "(no proporcionado)";
+    const name = d.name || "-";
+    const email = d.email || "-";
     const subject = d.subject || "Solicitud de cotización";
-    const message = d.message || "(sin mensaje)";
+    const message = d.message || "-";
 
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
     await sgMail.send({
-      to: "ing.civil.arq.ricardo.morales@gmail.com", // 👈 tu Gmail directo
-      from: process.env.FROM_EMAIL, // 👈 el correo verificado en SendGrid
-      replyTo: email !== "(no proporcionado)" ? email : undefined,
+      to: "ing.civil.arq.ricardo.morales@gmail.com", // tu Gmail (destino)
+      from: process.env.FROM_EMAIL,                  // Single Sender verificado en SendGrid
+      replyTo: email !== "-" ? email : undefined,
       subject: `Nuevo contacto: ${subject}`,
+      text:
+        `Nombre: ${name}\n` +
+        `Email: ${email}\n\n` +
+        `Mensaje:\n${message}\n`,
       html: `
         <h2>Nuevo contacto desde RM Engineering</h2>
         <p><strong>Nombre:</strong> ${name}</p>
@@ -29,6 +35,7 @@ export const handler = async (event) => {
       `,
     });
 
+    console.log("Email enviado OK a tu Gmail");
     return { statusCode: 200, body: "OK" };
   } catch (err) {
     console.error("Email error:", err);
