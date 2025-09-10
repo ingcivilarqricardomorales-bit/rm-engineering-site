@@ -10,7 +10,7 @@ export default function Contact() {
         </p>
 
         {/* FORMULARIO Netlify: SIN preventDefault, SIN fetch */}
-        <form
+       <form
   name="contact"
   method="POST"
   data-netlify="true"
@@ -19,6 +19,9 @@ export default function Contact() {
   acceptCharset="UTF-8"
   className="space-y-5 bg-white p-6 rounded-2xl shadow-lg ring-1 ring-black/5"
 >
+  <input type="hidden" name="form-name" value="contact" />
+  {/* ... tus inputs name/email/subject/message ... */}
+</form>
           {/* Requerido por Netlify Forms */}
           <input type="hidden" name="form-name" value="contact" />
 
