@@ -5,10 +5,11 @@ export default function Contact() {
     e.preventDefault();
     const form = e.currentTarget;
 
-    // Serializa como application/x-www-form-urlencoded
-    const formData = new FormData(form);
-    formData.append("form-name", "contact"); // refuerzo, por si acaso
-    const body = new URLSearchParams(formData).toString();
+    const fd = new FormData(form);
+    // Requerido por Netlify al enviar por fetch
+    fd.append("form-name", "contact");
+
+    const body = new URLSearchParams(fd).toString();
 
     try {
       await fetch("/", {
@@ -16,16 +17,17 @@ export default function Contact() {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
       });
-      window.location.assign("/success.html"); // página de gracias
-    } catch (err) {
-      console.error(err);
-      alert("No se pudo enviar el formulario. Inténtalo de nuevo.");
+      // Éxito – limpia y redirige a “gracias”
+      form.reset();
+      window.location.href = "/success.html";
+    } catch {
+      alert("No se pudo enviar. Intenta nuevamente.");
     }
   }, []);
 
   return (
-    <section id="contact" className="py-16 bg-gray-50">
-      <div className="max-w-3xl mx-auto px-6">
+    <section id="contact" className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16">
+      <div className="rounded-3xl border border-black/10 bg-white shadow-sm p-8">
         <h2 className="text-3xl font-bold mb-2 text-gray-900">Contacto</h2>
         <p className="text-gray-600 mb-8">
           Cuéntanos sobre tu proyecto. Respondemos entre 24 y 72 horas hábiles.
@@ -34,19 +36,17 @@ export default function Contact() {
         <form
           name="contact"
           method="POST"
+          action="/success.html"           // fallback si no hay JS
           data-netlify="true"
           netlify-honeypot="bot-field"
           acceptCharset="UTF-8"
           onSubmit={handleSubmit}
           className="space-y-5 bg-white p-6 rounded-2xl shadow-lg ring-1 ring-black/5"
         >
+          {/* Requeridos por Netlify */}
           <input type="hidden" name="form-name" value="contact" />
-
-          {/* Honeypot */}
           <p className="hidden">
-            <label>
-              Don’t fill this out: <input name="bot-field" />
-            </label>
+            <label>Don’t fill this out: <input name="bot-field" /></label>
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -55,19 +55,20 @@ export default function Contact() {
               <input
                 type="text"
                 name="name"
+                autoComplete="name"
                 required
-                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="mt-1 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 placeholder="Tu nombre"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
                 type="email"
                 name="email"
+                autoComplete="email"
                 required
-                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="mt-1 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 placeholder="tucorreo@ejemplo.com"
               />
             </div>
@@ -78,7 +79,7 @@ export default function Contact() {
             <input
               type="text"
               name="subject"
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="mt-1 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
               placeholder="Ej. Cotización / Consultoría / Proyecto"
               defaultValue="Solicitud de cotización"
             />
@@ -90,7 +91,7 @@ export default function Contact() {
               name="message"
               required
               rows={6}
-              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="mt-1 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
               placeholder="Describe brevemente tu proyecto, plazos y alcance…"
             />
           </div>
@@ -102,6 +103,7 @@ export default function Contact() {
             >
               Enviar solicitud
             </button>
+
             <a
               href="https://wa.me/50700000000?text=Hola%20RM%20Engineering,%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto."
               target="_blank"
