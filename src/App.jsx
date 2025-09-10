@@ -59,7 +59,7 @@ export default function App() {
 
       {/* Servicios */}
       <section id="services" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">Servicios</h2>
           {services.map((s) => (
             <article
               key={s.title}
@@ -80,9 +80,9 @@ export default function App() {
         </div>
       </section>
 
-      {/* Proyectos */}
+      {/* Análisis y Diseños */}
       <section id="projects" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">Análisis y Diseño</h2>
           {projects.map((c) => (
             <figure
               key={c.title}
