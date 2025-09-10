@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./Components/Navbar";
 import Hero from "./Components/Hero";
 import Footer from "./Components/Footer";
+import Contact from "./Components/Contact";
 
 export default function App() {
   const services = [
@@ -152,8 +153,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* Contacto (compatible con Netlify Forms) */}
-      <section id="contact" className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16">
+      {/* Contacto */}
+      <Contact />
         <div className="rounded-3xl border border-black/10 bg-white shadow-sm p-8">
           <h2 className="text-3xl font-bold">Contacto</h2>
           <p className="mt-2 text-gray-600">
