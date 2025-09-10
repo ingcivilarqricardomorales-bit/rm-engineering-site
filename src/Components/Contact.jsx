@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 export default function Contact() {
+  const handleSubmit = useCallback(async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+
+    // Serializamos como application/x-www-form-urlencoded
+    const formData = new FormData(form);
+    formData.append("form-name", "contact"); // reforzamos el form-name
+    const body = new URLSearchParams(formData).toString();
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
+      });
+
+      // Redirige a la página de éxito
+      window.location.assign("/success.html");
+    } catch (err) {
+      alert("No se pudo enviar el formulario. Intenta de nuevo.");
+      console.error(err);
+    }
+  }, []);
+
   return (
     <section id="contact" className="py-16 bg-gray-50">
       <div className="max-w-3xl mx-auto px-6">
@@ -9,20 +33,19 @@ export default function Contact() {
           Cuéntanos sobre tu proyecto. Respondemos entre 24 y 72 horas hábiles.
         </p>
 
-        {/* FORMULARIO Netlify */}
         <form
           name="contact"
           method="POST"
           data-netlify="true"
           netlify-honeypot="bot-field"
-          action="/success.html"
           acceptCharset="UTF-8"
+          onSubmit={handleSubmit}
           className="space-y-5 bg-white p-6 rounded-2xl shadow-lg ring-1 ring-black/5"
         >
           {/* Requerido por Netlify Forms */}
           <input type="hidden" name="form-name" value="contact" />
 
-          {/* Honeypot */}
+          {/* Honeypot (anti-bots) */}
           <p className="hidden">
             <label>
               Don’t fill this out: <input name="bot-field" />
