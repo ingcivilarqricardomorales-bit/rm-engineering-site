@@ -3,12 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="RM Engineering & Architectural Design — Estudio de ingeniería y arquitectura.">
+    <meta name="description" content="RM Engineering & Architectural Design — Estudio de ingeniería y arquitectura. Diseños integrados para resultados medibles." />
 
-    <!-- 🔹 Favicons y manifest -->
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <!-- Canonical -->
+    <link rel="canonical" href="https://rmengineeringandarchitecturaldesign.com/" />
+
+    <!-- Favicons y manifest -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="RM Engineering" />
     <link rel="manifest" href="/site.webmanifest" />
@@ -16,7 +19,57 @@
 
     <title>RM Engineering & Architectural Design</title>
 
-    <!-- 🔹 Google Analytics -->
+    <!-- Open Graph / WhatsApp / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RM Engineering & Architectural Design" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:url" content="https://rmengineeringandarchitecturaldesign.com/" />
+    <meta property="og:title" content="RM Engineering & Architectural Design" />
+    <meta property="og:description" content="Estudio de ingeniería y arquitectura — Diseños integrados para resultados medibles." />
+    <!-- Usa URL absolutas y HTTPS para que WhatsApp/Meta las lean sin problemas -->
+    <meta property="og:image" content="https://rmengineeringandarchitecturaldesign.com/og-image.png" />
+    <meta property="og:image:secure_url" content="https://rmengineeringandarchitecturaldesign.com/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="RM Engineering & Architectural Design" />
+
+    <!-- Twitter Card (también lo usan X y Telegram) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RM Engineering & Architectural Design" />
+    <meta name="twitter:description" content="Estudio de ingeniería y arquitectura — Diseños integrados para resultados medibles." />
+    <meta name="twitter:image" content="https://rmengineeringandarchitecturaldesign.com/og-image.png" />
+    <meta name="twitter:image:alt" content="RM Engineering & Architectural Design" />
+
+    <!-- JSON-LD (Organization + Website) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "RM Engineering & Architectural Design",
+        "url": "https://rmengineeringandarchitecturaldesign.com/",
+        "logo": "https://rmengineeringandarchitecturaldesign.com/favicon-32x32.png",
+        "sameAs": [
+          "https://www.instagram.com/tu_cuenta",
+          "https://www.linkedin.com/in/tu_perfil"
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"WebSite",
+        "name":"RM Engineering & Architectural Design",
+        "url":"https://rmengineeringandarchitecturaldesign.com/",
+        "potentialAction":{
+          "@type":"SearchAction",
+          "target":"https://rmengineeringandarchitecturaldesign.com/?q={search_term_string}",
+          "query-input":"required name=search_term_string"
+        }
+      }
+    </script>
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -25,31 +78,8 @@
       gtag('config', 'G-E9V1Y5PFKK');
     </script>
 
-    <!-- 🔹 Google reCAPTCHA v2 -->
+    <!-- Google reCAPTCHA v2 -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
-    <!-- 🔹 SEO / Social -->
-    <meta property="og:title" content="RM Engineering & Architectural Design" />
-    <meta property="og:description" content="Diseños integrados para resultados medibles — Estudio de ingeniería y arquitectura." />
-    <meta property="og:url" content="https://rmengineeringandarchitecturaldesign.com/" />
-    <meta property="og:image" content="https://rmengineeringandarchitecturaldesign.com/og-image.jpg" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <!-- 🔹 Datos estructurados (JSON-LD) -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "RM Engineering & Architectural Design",
-        "url": "https://rmengineeringandarchitecturaldesign.com/",
-        "logo": "https://rmengineeringandarchitecturaldesign.com/favicon-96x96.png",
-        "sameAs": [
-          "https://www.instagram.com/tu_cuenta",
-          "https://www.linkedin.com/in/tu_perfil"
-        ]
-      }
-    </script>
   </head>
 
   <body class="bg-[#f6f7f9]">
