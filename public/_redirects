@@ -1,8 +1,10 @@
-# 1) Forzar HTTPS en todo
-http://*  https://:splat  301!
+# 1) Forzar HTTPS SOLO en tus dominios (no tocar *.netlify.app)
+http://rmengineeringandarchitecturaldesign.com/*         https://rmengineeringandarchitecturaldesign.com/:splat         301!
+http://www.rmengineeringandarchitecturaldesign.com/*     https://rmengineeringandarchitecturaldesign.com/:splat         301!
 
-# 2) Canonical host: redirigir www -> dominio raíz (apex)
-https://www.rmengineeringandarchitecturaldesign.com/*  https://rmengineeringandarchitecturaldesign.com/:splat  301!
+# 2) Canonical host: redirigir www -> dominio raíz
+https://www.rmengineeringandarchitecturaldesign.com/*    https://rmengineeringandarchitecturaldesign.com/:splat         301!
 
-# 3) Fallback para SPA (Vite/React). El "200!" NO intercepta archivos existentes
+# 3) Fallback para SPA (no intercepta archivos existentes)
+#    ¡Déjalo SIEMPRE al final!
 /*  /index.html  200!
