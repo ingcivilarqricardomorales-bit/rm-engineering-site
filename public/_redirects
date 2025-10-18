@@ -1,1 +1,8 @@
-/*    /index.html   200
+# 1) Forzar HTTPS en todo
+http://*  https://:splat  301!
+
+# 2) Canonical host: redirigir www -> dominio raíz (apex)
+https://www.rmengineeringandarchitecturaldesign.com/*  https://rmengineeringandarchitecturaldesign.com/:splat  301!
+
+# 3) Fallback para SPA (Vite/React). El "200!" NO intercepta archivos existentes
+/*  /index.html  200!
