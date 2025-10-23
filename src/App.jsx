@@ -12,7 +12,7 @@ export default function App() {
       bullets: ["Eficiencia energética", "Coordinación multidisciplinaria", "Normativa local"],
     },
     {
-      title: "Estructuras & Sismo",
+      title: "Estructuras Sismorresistentes",
       desc:
         "Análisis/diseño según ASCE 7, ACI/AISC. Optimización por desempeño y revisión independiente.",
       bullets: ["Modelos lineales/no lineales", "Pórticos, muros, cimentaciones", "QA/QC estructural"],
