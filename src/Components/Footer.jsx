@@ -5,6 +5,12 @@ export default function Footer() {
   const domain = "gmail.com";
   const mail = `${user}@${domain}`;
 
+  // Añade espacios invisibles tras cada punto y el arroba
+  // para permitir quiebres elegantes si el correo es muy largo
+  const prettyMail = mail
+    .replaceAll(".", ".\u200B")
+    .replace("@", "@\u200B");
+
   return (
     <footer className="bg-gray-900 text-gray-200 py-10 mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -37,10 +43,10 @@ export default function Footer() {
               Email:{" "}
               <a
                 href={`mailto:${mail}`}
-                className="hover:text-white break-all"
+                className="hover:text-white break-words md:whitespace-nowrap"
                 aria-label="Enviar correo electrónico"
               >
-                {mail}
+                {prettyMail}
               </a>
             </li>
             <li>Celular: +507 66074960</li>
